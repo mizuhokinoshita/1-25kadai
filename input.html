@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">  
+    <script src="JS/jquery-3.6.1.min.js"></script>
+    
+    <title>掲示板</title>
+</head>
+
+
+<body>
+    <h1>投稿フォーム</h1>
+    <form action="input_do.php" method="POST">
+        <textarea name="messages" id="" cols="50" rows="10"></textarea>
+        <button type="submit">投稿する</button>
+    </form>
+    <a href="index2.php">投稿一覧</a>
+    
+    <h2>1/25 課題</h2>
+    <div class="result">ajax通信</div>
+    <input type="button" class="sample_btn" value="コメント全表示">
+<div class="container">
+</body>
+</html>
+
+<script>
+    
+
+   
+    //.sampleをクリックしてajax通信を行う
+    $('.sample_btn').click(function(){
+        $.ajax({
+            url: 'dbconnect.php',
+            type: 'GET', 
+            dataType: 'json'
+            
+        }).done(function(data){
+            /* 通信成功時 */
+            var html_response = '<ul>';
+            //json形式で受け取った配列を.each()で繰り返し、ul > liリストにする
+            $.each(data, function(key,val){
+                html_response += '<li>'+val;
+            });
+            html_response += '</ul>';
+            $('.result').html(html_response);
+
+            // $('.result').html(data); //取得したHTMLを.resultに反映
+            
+        }).fail(function(data){
+            /* 通信失敗時 */
+            alert('通信失敗！');
+                    
+        });
+    });
+
+</script>
